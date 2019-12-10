@@ -11,4 +11,4 @@ class InputFile(models.Model):
         _("Description"), max_length=255, null=True, blank=True)
     dete_uploaded = models.DateTimeField(_("Date Uploaded"), auto_now_add=True)
     status = models.CharField(_("Staus"), max_length=50, choices=STATUS_CHOICES, default='queued')
-    pdf_file = models.FileField(_("Input File"), null=True)
+    pdf_file = models.FileField(_("PDF File"), null=True)
