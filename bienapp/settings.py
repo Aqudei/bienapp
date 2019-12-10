@@ -25,7 +25,7 @@ SECRET_KEY = '7&bofn0@b8@dqkgpr*hndrify^kb@%mefdpk&b-txd42u1ysjf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['bienapp.ga', 'www.bienapp.ga']
 
 
 # Application definition
