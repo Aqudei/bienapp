@@ -100,6 +100,6 @@ def plot():
 
             if os.path.exists(pdf_filename):
                 f.status = 'done'
-                with open(pdf_filename) as source:
+                with open(pdf_filename, 'rb') as source:
                     f.pdf_file.save(os.path.basename(
                         pdf_filename) + '.pdf', File(source), save=True)
