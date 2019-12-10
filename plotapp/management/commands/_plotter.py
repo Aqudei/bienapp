@@ -13,6 +13,7 @@ import math
 import statistics
 from django.conf import settings
 import os
+from django.core.files import File
 
 
 def plot_scatter(points):
@@ -35,7 +36,7 @@ def plot():
     )
 
     for f in files:
-
+        pdf_filename = os.path.join(settings.BASE_DIR, 'temp', str(uuid4()))
         with open(f.file.path, 'rt', newline='') as fp:
             reader = csv.reader(fp)
             points = list([float(row[0]) for row in reader])
@@ -46,7 +47,7 @@ def plot():
 
             fn1, fn2 = plot_scatter(points)
 
-            doc = SimpleDocTemplate(os.path.join(settings.BASE_DIR, "temp", "form_letter.pdf"), pagesize=letter,
+            doc = SimpleDocTemplate(pdf_filename, pagesize=letter,
                                     rightMargin=72, leftMargin=72,
                                     topMargin=72, bottomMargin=18)
             Story = []
@@ -56,7 +57,7 @@ def plot():
             test_date = "03/05/2010"
             csv_filename = 'Measurement_Data_20191023.csv'
 
-            #im = Image(logo, 2*inch, 2*inch)
+            # im = Image(logo, 2*inch, 2*inch)
             # Story.append(im)
 
             styles = getSampleStyleSheet()
@@ -96,3 +97,9 @@ def plot():
             ptext = '<font size=12>STDEV: %s</font>' % stdev
             Story.append(Paragraph(ptext, styles["Normal"]))
             doc.build(Story)
+
+            if os.path.exists(pdf_filename):
+                f.status = 'done'
+                with open(pdf_filename) as source:
+                    f.pdf_file.save(os.path.basename(
+                        pdf_filename) + '.pdf', File(source), save=True)
